@@ -4,7 +4,9 @@ A component to profile and test a Dalphi setup.
 
 ## Usage
 
+```bash
 ./profiler.rb https://dalphi.example.com /path/to/my/profile.rb
+```
 
 ## Creating a profile
 
