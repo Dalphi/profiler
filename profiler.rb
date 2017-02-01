@@ -8,7 +8,7 @@ require 'faker'
 
 Capybara.run_server = false
 Capybara.current_driver = :poltergeist
-Capybara.app_host = 'http://localhost:3000'
+Capybara.app_host = ARGV[0]
 
 module DalphiProfiler
   class Authentification
@@ -173,23 +173,4 @@ end
 
 session = Capybara::Session.new(:poltergeist)
 
-registration = DalphiProfiler::Registration.new(email: 'darrel.marvin@example.com', password: 'Pb9bWr42Lw01Vm')
-authentification = DalphiProfiler::Authentification.new(email: 'darrel.marvin@example.com', password: 'Pb9bWr42Lw01Vm')
-
-project = DalphiProfiler::Project.new(title: 'bluetooth port indexing')
-
-# registration.register_admin
-authentification.login_admin
-
-annotator = DalphiProfiler::Annotator.new name: 'Kailey Ledner DVM', email: 'foo@example.com'
-# annotator.create
-# annotator.destroy
-
-# project.create
-# project.destroy
-
-# annotator.assign_to_project('bluetooth port indexing')
-# annotator.unassign_from_project('bluetooth port indexing')
-
-# authentification.logout_admin
-# registration.unregister_admin
+eval(File.open(File.expand_path(ARGV[1])).read)
