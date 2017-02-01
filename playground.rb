@@ -1,8 +1,10 @@
 registration = DalphiProfiler::Registration.new(email: 'darrel.marvin@example.com', password: 'Pb9bWr42Lw01Vm')
 authentification = DalphiProfiler::Authentification.new(email: 'darrel.marvin@example.com', password: 'Pb9bWr42Lw01Vm')
 
-project = DalphiProfiler::Project.new(title: 'bluetooth port indexing')
-annotator = DalphiProfiler::Annotator.new name: 'Kailey Ledner DVM', email: 'foo@example.com'
+project_title = 'bluetooth port indexing'
+project = DalphiProfiler::Project.new(title: project_title)
+annotator = DalphiProfiler::Annotator.new(name: 'Kailey Ledner DVM', email: 'foo@example.com')
+raw_datum = DalphiProfiler::RawDatum.new(project_title: project_title)
 
 # registration.register_admin
 authentification.login_admin
@@ -12,6 +14,9 @@ authentification.login_admin
 
 # project.create
 # project.destroy
+
+raw_datum.create
+# raw_datum.destroy_all
 
 # annotator.assign_to_project('bluetooth port indexing')
 # annotator.unassign_from_project('bluetooth port indexing')

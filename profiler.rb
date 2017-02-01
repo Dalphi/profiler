@@ -169,8 +169,57 @@ module DalphiProfiler
       click_on 'Unassign annotator from project'
     end
   end
+
+  class RawDatum
+    include Capybara::DSL
+
+    def initialize(project_title: nil, file: nil)
+      unless file
+        file = Tempfile.new(['', '.json'])
+        file.write(
+          {
+            character: Faker::StarWars.character,
+            droid: Faker::StarWars.droid,
+            planet: Faker::StarWars.planet,
+            quote: Faker::StarWars.quote,
+            specie: Faker::StarWars.specie,
+            vehicle: Faker::StarWars.vehicle,
+            wookie_sentence: Faker::StarWars.wookie_sentence
+          }.to_json
+        )
+        file.rewind
+      end
+
+      @project_title = project_title
+      @file = file
+    end
+
+    # TODO: fix
+    def create
+      visit '/projects'
+
+      click_on @project_title
+      click_on 'Raw Data'
+      click_on 'New raw datum'
+      attach_file 'raw_datum[data][]', @file.path
+
+      click_on 'Save'
+    end
+
+    def destroy_all
+      visit '/projects'
+
+      click_on @project_title
+      click_on 'Raw Data'
+      click_on 'Delete all'
+    end
+  end
 end
 
 session = Capybara::Session.new(:poltergeist)
 
-eval(File.open(File.expand_path(ARGV[1])).read)
+eval(
+  File.open(
+    File.expand_path(ARGV[1])
+  ).read
+)

@@ -67,3 +67,15 @@ annotator.destroy # destroys an annotator identified by the name
 annotator.assign_to_project('bluetooth port indexing') # assignes the annotator identified by the name and email to the project identified by its title
 annotator.unassign_from_project('bluetooth port indexing') # unassignes the annotator identified by its name from the project identified by its title
 ```
+
+### RawDatum
+
+The `raw_datum` object can `create` and `destroy` a raw datum.
+
+```
+raw_datum = DalphiProfiler::Annotator.new project_title: 'bluetooth port indexing',
+                                          file: '/path/to/your/raw_datum.json'
+
+raw_datum.create # creates a raw datum with the given file for the project with the specified project title
+raw_datum.destroy_all # destroys all raw data associated to the project with the given title
+```
