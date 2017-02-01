@@ -109,9 +109,64 @@ module DalphiProfiler
     def destroy
       visit '/projects'
 
-      click_on "#{@title}"
+      click_on @title
       click_on 'Edit project'
       find(:css, '.btn-danger').trigger('click')
+    end
+  end
+
+  class Annotator
+    include Capybara::DSL
+
+    def initialize(name: nil, email: nil, password: nil)
+      name ||= Faker::Name.name
+      email ||= Faker::Internet.safe_email
+      password ||= Faker::Internet.password
+
+      @name = name
+      @email = email
+      @password = password
+    end
+
+    def create
+      visit '/annotators'
+
+      fill_in 'annotator[name]', with: @name
+      fill_in 'annotator[email]', with: @email
+      fill_in 'annotator[password]', with: @password
+
+      click_on 'New annotator'
+    end
+
+    def destroy
+      visit '/annotators'
+
+      click_on @name
+      click_on 'Delete'
+    end
+
+    def assign_to_project(project_title)
+      visit '/projects'
+
+      click_on project_title
+      within :css, '.nav-tabs' do
+        click_on 'Annotators'
+      end
+
+      select "#{@name} (#{@email})", from: 'project_annotator'
+      click_on 'Add annotator'
+    end
+
+    def unassign_from_project(project_title)
+      visit '/projects'
+
+      click_on project_title
+      within :css, '.nav-tabs' do
+        click_on 'Annotators'
+      end
+
+      click_on @name
+      click_on 'Unassign annotator from project'
     end
   end
 end
@@ -123,11 +178,18 @@ authentification = DalphiProfiler::Authentification.new(email: 'darrel.marvin@ex
 
 project = DalphiProfiler::Project.new(title: 'bluetooth port indexing')
 
-registration.register_admin
-# authentification.login_admin
+# registration.register_admin
+authentification.login_admin
 
-project.create
+annotator = DalphiProfiler::Annotator.new name: 'Kailey Ledner DVM', email: 'foo@example.com'
+# annotator.create
+# annotator.destroy
+
+# project.create
 # project.destroy
 
+# annotator.assign_to_project('bluetooth port indexing')
+# annotator.unassign_from_project('bluetooth port indexing')
+
 # authentification.logout_admin
-registration.unregister_admin
+# registration.unregister_admin
