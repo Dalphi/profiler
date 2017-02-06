@@ -194,16 +194,18 @@ module DalphiProfiler
       @file = file
     end
 
-    # TODO: fix
     def create
       visit '/projects'
 
       click_on @project_title
       click_on 'Raw Data'
       click_on 'New raw datum'
-      attach_file 'raw_datum[data][]', @file.path
 
-      click_on 'Save'
+      page.evaluate_script '$("#raw_datum_data").removeAttr("accept")'
+
+      attach_file 'raw_datum_data', @file.path
+
+      find(:css, '.btn-primary').trigger('click')
     end
 
     def destroy_all
@@ -213,6 +215,10 @@ module DalphiProfiler
       click_on 'Raw Data'
       click_on 'Delete all'
     end
+  end
+
+  class AnnotationDocument
+    include Capybara::DSL
   end
 end
 
