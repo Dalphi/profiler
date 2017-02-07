@@ -72,7 +72,7 @@ annotator.unassign_from_project('bluetooth port indexing') # unassignes the anno
 
 The `raw_datum` object can `create` a datum and `destroy_all` of them.
 
-```
+```ruby
 raw_datum = DalphiProfiler::Annotator.new project_title: 'bluetooth port indexing',
                                           file: '/path/to/your/raw_datum.json'
 
@@ -84,7 +84,7 @@ raw_datum.destroy_all # destroys all raw data associated to the project with the
 
 The `annotation_document` object can `create` a datum and `destroy_all` of them.
 
-```
+```ruby
 annotation_document = DalphiProfiler::AnnotationDocument.new(project_title: 'bluetooth port indexing')
 
 annotation_document.create # creates an annotation document for the project with the specified project title
@@ -95,8 +95,9 @@ annotation_document.destroy_all # destroys all annotation documents associated t
 
 The `annotation` object can `annotate` an annotation document or `merge` all annotated annotation documents.
 
-```
+```ruby
 annotation = DalphiProfiler::Annotation.new(project_title: 'bluetooth port indexing')
+
 annotation.annotate(label_words: { 'PER': ['Linus Torvalds', 'Richard Stallman'], 'COM': ['Linux Foundation', 'Canonical'] }) # annotates one annotation document with the given words for the coresponding labels
 annotation.merge # merges all annotated annotation documents back to the corresponding raw datum
 ```
