@@ -11,6 +11,11 @@ Capybara.current_driver = :poltergeist
 Capybara.app_host = ARGV[0]
 
 module DalphiProfiler
+  def wait_for_ajax
+    include Capybara::DSL
+
+  end
+
   class Authentification
     include Capybara::DSL
 
@@ -249,16 +254,33 @@ module DalphiProfiler
       @project_title = project_title
     end
 
-    def annotate
-        visit '/projects'
+    def annotate(label_words: nil)
+      visit '/projects'
 
-        click_on @project_title
-        click_on 'Annotation Documents'
-        click_on 'Annotate'
+      click_on @project_title
+      click_on 'Annotation Documents'
+      visit "#{page.find("[href*='annotate']")[:href]}&synchronous_request=true"
 
-        sleep 2
+      label_words.each do |label, words|
+        page.find(".#{label}").trigger('click')
+        words.each do |word|
+          page.all('span', text: word).each do |token|
+            token.trigger('click')
+          end
+        end
+      end if label_words
 
-        save_screenshot('/tmp/test.png')
+      save_screenshot("/tmp/annotation-document-#{Time.now.strftime('%Y-%m-%d %H:%M:%S.%N')}.png")
+
+      click_on 'Save annotation'
+    end
+
+    def merge
+      visit '/projects'
+
+      click_on @project_title
+      click_on 'Annotation Documents'
+      click_on 'Merge'
     end
   end
 end

@@ -4,6 +4,15 @@ authentification = DalphiProfiler::Authentification.new(email: 'darrel.marvin@ex
 project_title = 'bluetooth port indexing'
 project = DalphiProfiler::Project.new(title: project_title)
 annotator = DalphiProfiler::Annotator.new(name: 'Kailey Ledner DVM', email: 'foo@example.com')
+annotation_document = DalphiProfiler::AnnotationDocument.new(project_title: project_title)
+annotation = DalphiProfiler::Annotation.new(project_title: project_title)
+label_words = { 'PER': [
+                  'Donald', 'Trump', 'Tsai', 'Ing-wen', 'Mike', 'Pence'
+                ],
+                'COM': [
+                  'ABC'
+                ]
+              }
 
 # registration.register_admin
 authentification.login_admin
@@ -23,12 +32,13 @@ authentification.login_admin
 # raw_datum.create
 # raw_datum.destroy_all
 
-annotation_document = DalphiProfiler::AnnotationDocument.new(project_title: project_title)
 # annotation_document.create
 # annotation_document.destroy_all
 
-annotation = DalphiProfiler::Annotation.new(project_title: project_title)
-annotation.annotate
+# 20.times do
+#   annotation.annotate(label_words: label_words)
+# end
+annotation.merge
 
 # annotator.assign_to_project('bluetooth port indexing')
 # annotator.unassign_from_project('bluetooth port indexing')
