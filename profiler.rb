@@ -173,8 +173,8 @@ module DalphiProfiler
   class RawDatum
     include Capybara::DSL
 
-    def initialize(project_title: nil, file: nil)
-      unless file
+    def initialize(project_title: nil, files: nil)
+      unless files
         file = Tempfile.new(['', '.json'])
         file.write(
           {
@@ -188,10 +188,11 @@ module DalphiProfiler
           }.to_json
         )
         file.rewind
+        files = [file]
       end
 
       @project_title = project_title
-      @file = file
+      @files = files
     end
 
     def create
@@ -203,7 +204,7 @@ module DalphiProfiler
 
       page.evaluate_script '$("#raw_datum_data").removeAttr("accept")'
 
-      attach_file 'raw_datum_data', @file.path
+      attach_file 'raw_datum_data', @files.map(&:path)
 
       find(:css, '.btn-primary').trigger('click')
     end
@@ -219,6 +220,46 @@ module DalphiProfiler
 
   class AnnotationDocument
     include Capybara::DSL
+
+    def initialize(project_title: nil)
+      @project_title = project_title
+    end
+
+    def create
+      visit '/projects'
+
+      click_on @project_title
+      click_on 'Annotation Documents'
+      click_on 'Generate annotation documents'
+    end
+
+    def destroy_all
+      visit '/projects'
+
+      click_on @project_title
+      click_on 'Annotation Documents'
+      click_on 'Delete all'
+    end
+  end
+
+  class Annotation
+    include Capybara::DSL
+
+    def initialize(project_title: nil)
+      @project_title = project_title
+    end
+
+    def annotate
+        visit '/projects'
+
+        click_on @project_title
+        click_on 'Annotation Documents'
+        click_on 'Annotate'
+
+        sleep 2
+
+        save_screenshot('/tmp/test.png')
+    end
   end
 end
 
