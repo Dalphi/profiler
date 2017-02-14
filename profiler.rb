@@ -23,6 +23,10 @@ module DalphiProfiler
 
       @email = email
       @password = password
+    rescue
+      puts "error in Authentification#initialize"
+      save_screenshot("#{Dir.pwd}/error-#{Time.now.strftime('%Y-%m-%d %H:%M:%S.%N')}.png")
+      raise
     end
 
     def login_admin
@@ -32,12 +36,20 @@ module DalphiProfiler
       fill_in 'admin_password', with: @password
 
       click_button 'Sign in'
+    rescue
+      puts "error in Authentification#login_admin"
+      save_screenshot("#{Dir.pwd}/error-#{Time.now.strftime('%Y-%m-%d %H:%M:%S.%N')}.png")
+      raise
     end
 
     def logout_admin
       visit '/'
 
       find(:css, '.sign-out').trigger('click')
+    rescue
+      puts "error in Authentification#logout_admin"
+      save_screenshot("#{Dir.pwd}/error-#{Time.now.strftime('%Y-%m-%d %H:%M:%S.%N')}.png")
+      raise
     end
   end
 
@@ -52,6 +64,10 @@ module DalphiProfiler
 
       @email = email
       @password = password
+    rescue
+      puts "error in Registration#initialize"
+      save_screenshot("#{Dir.pwd}/error-#{Time.now.strftime('%Y-%m-%d %H:%M:%S.%N')}.png")
+      raise
     end
 
     def register_admin
@@ -64,12 +80,20 @@ module DalphiProfiler
       click_button 'Sign up'
 
       { email: @email, password: @password }
+    rescue
+      puts "error in Registration#register_admin"
+      save_screenshot("#{Dir.pwd}/error-#{Time.now.strftime('%Y-%m-%d %H:%M:%S.%N')}.png")
+      raise
     end
 
     def unregister_admin
       visit '/auth/admins/edit'
 
       click_on 'Cancel My Account'
+    rescue
+      puts "error in Registration#unregister_admin"
+      save_screenshot("#{Dir.pwd}/error-#{Time.now.strftime('%Y-%m-%d %H:%M:%S.%N')}.png")
+      raise
     end
   end
 
@@ -90,6 +114,10 @@ module DalphiProfiler
       @iterate_service = iterate_service
       @merge_service = merge_service
       @interfaces = interfaces
+    rescue
+      puts "error in Project#initialize"
+      save_screenshot("#{Dir.pwd}/error-#{Time.now.strftime('%Y-%m-%d %H:%M:%S.%N')}.png")
+      raise
     end
 
     def create
@@ -111,6 +139,10 @@ module DalphiProfiler
       end
 
       find(:css, '.btn-primary').trigger('click')
+    rescue
+      puts "error in Project#create"
+      save_screenshot("#{Dir.pwd}/error-#{Time.now.strftime('%Y-%m-%d %H:%M:%S.%N')}.png")
+      raise
     end
 
     def destroy
@@ -119,6 +151,10 @@ module DalphiProfiler
       click_on @title
       click_on 'Edit project'
       find(:css, '.btn-danger').trigger('click')
+    rescue
+      puts "error in Project#destroy"
+      save_screenshot("#{Dir.pwd}/error-#{Time.now.strftime('%Y-%m-%d %H:%M:%S.%N')}.png")
+      raise
     end
   end
 
@@ -135,6 +171,10 @@ module DalphiProfiler
       @name = name
       @email = email
       @password = password
+    rescue
+      puts "error in Annotator#initialize"
+      save_screenshot("#{Dir.pwd}/error-#{Time.now.strftime('%Y-%m-%d %H:%M:%S.%N')}.png")
+      raise
     end
 
     def create
@@ -145,6 +185,10 @@ module DalphiProfiler
       fill_in 'annotator[password]', with: @password
 
       click_on 'New annotator'
+    rescue
+      puts "error in Annotator#create"
+      save_screenshot("#{Dir.pwd}/error-#{Time.now.strftime('%Y-%m-%d %H:%M:%S.%N')}.png")
+      raise
     end
 
     def destroy
@@ -152,6 +196,10 @@ module DalphiProfiler
 
       click_on @name
       click_on 'Delete'
+    rescue
+      puts "error in Annotator#destroy"
+      save_screenshot("#{Dir.pwd}/error-#{Time.now.strftime('%Y-%m-%d %H:%M:%S.%N')}.png")
+      raise
     end
 
     def assign_to_project(project_title: nil)
@@ -164,6 +212,10 @@ module DalphiProfiler
 
       select "#{@name} (#{@email})", from: 'project_annotator'
       click_on 'Add annotator'
+    rescue
+      puts "error in Annotator#assign_to_project"
+      save_screenshot("#{Dir.pwd}/error-#{Time.now.strftime('%Y-%m-%d %H:%M:%S.%N')}.png")
+      raise
     end
 
     def unassign_from_project(project_title: nil)
@@ -176,6 +228,10 @@ module DalphiProfiler
 
       click_on @name
       click_on 'Unassign annotator from project'
+    rescue
+      puts "error in Annotator#unassign_to_project"
+      save_screenshot("#{Dir.pwd}/error-#{Time.now.strftime('%Y-%m-%d %H:%M:%S.%N')}.png")
+      raise
     end
   end
 
@@ -204,6 +260,10 @@ module DalphiProfiler
 
       @project_title = project_title
       @files = files
+    rescue
+      puts "error in RawDatum#initialize"
+      save_screenshot("#{Dir.pwd}/error-#{Time.now.strftime('%Y-%m-%d %H:%M:%S.%N')}.png")
+      raise
     end
 
     def create
@@ -218,6 +278,10 @@ module DalphiProfiler
       attach_file 'raw_datum_data', @files.map(&:path)
 
       find(:css, '.btn-primary').trigger('click')
+    rescue
+      puts "error in RawDatum#create"
+      save_screenshot("#{Dir.pwd}/error-#{Time.now.strftime('%Y-%m-%d %H:%M:%S.%N')}.png")
+      raise
     end
 
     def destroy_all
@@ -226,6 +290,10 @@ module DalphiProfiler
       click_on @project_title
       click_on 'Raw Data'
       click_on 'Delete all'
+    rescue
+      puts "error in RawDatum#destroy_all"
+      save_screenshot("#{Dir.pwd}/error-#{Time.now.strftime('%Y-%m-%d %H:%M:%S.%N')}.png")
+      raise
     end
   end
 
@@ -236,6 +304,10 @@ module DalphiProfiler
       page.driver.browser.js_errors = false
 
       @project_title = project_title
+    rescue
+      puts "error in AnnotationDocument#initialize"
+      save_screenshot("#{Dir.pwd}/error-#{Time.now.strftime('%Y-%m-%d %H:%M:%S.%N')}.png")
+      raise
     end
 
     def create
@@ -244,6 +316,10 @@ module DalphiProfiler
       click_on @project_title
       click_on 'Annotation Documents'
       click_on 'Generate annotation documents'
+    rescue
+      puts "error in AnnotationDocument#create"
+      save_screenshot("#{Dir.pwd}/error-#{Time.now.strftime('%Y-%m-%d %H:%M:%S.%N')}.png")
+      raise
     end
 
     def destroy_all
@@ -252,6 +328,10 @@ module DalphiProfiler
       click_on @project_title
       click_on 'Annotation Documents'
       click_on 'Delete all'
+    rescue
+      puts "error in AnnotationDocument#destroy_all"
+      save_screenshot("#{Dir.pwd}/error-#{Time.now.strftime('%Y-%m-%d %H:%M:%S.%N')}.png")
+      raise
     end
   end
 
@@ -262,6 +342,10 @@ module DalphiProfiler
       page.driver.browser.js_errors = false
 
       @project_title = project_title
+    rescue
+      puts "error in Annotation#initialize"
+      save_screenshot("#{Dir.pwd}/error-#{Time.now.strftime('%Y-%m-%d %H:%M:%S.%N')}.png")
+      raise
     end
 
     def annotate(label_words: nil)
@@ -280,9 +364,11 @@ module DalphiProfiler
         end
       end if label_words
 
-      # save_screenshot("/tmp/annotation-document-#{Time.now.strftime('%Y-%m-%d %H:%M:%S.%N')}.png")
-
       click_on 'Save annotation'
+    rescue
+      puts "error in Annotation#annotate"
+      save_screenshot("#{Dir.pwd}/error-#{Time.now.strftime('%Y-%m-%d %H:%M:%S.%N')}.png")
+      raise
     end
 
     def merge
@@ -291,6 +377,10 @@ module DalphiProfiler
       click_on @project_title
       click_on 'Annotation Documents'
       click_on 'Merge'
+    rescue
+      puts "error in Annotation#merge"
+      save_screenshot("#{Dir.pwd}/error-#{Time.now.strftime('%Y-%m-%d %H:%M:%S.%N')}.png")
+      raise
     end
   end
 end
