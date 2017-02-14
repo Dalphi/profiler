@@ -7,9 +7,11 @@ require 'capybara/poltergeist'
 require 'faker'
 
 Capybara.run_server = false
-Capybara.current_driver = :poltergeist
 Capybara.default_max_wait_time = 10
 Capybara.app_host = ARGV[0]
+Capybara.register_driver :poltergeist do |app|
+  Capybara::Poltergeist::Driver.new(app, js_errors: false)
+end
 
 module DalphiProfiler
   def wait_for_ajax
