@@ -8,7 +8,7 @@ require 'faker'
 
 Capybara.run_server = false
 Capybara.current_driver = :poltergeist
-Capybara.default_max_wait_time = 10
+Capybara.default_max_wait_time = 60
 Capybara.app_host = ARGV[0]
 
 module DalphiProfiler
