@@ -12,15 +12,12 @@ Capybara.default_max_wait_time = 10
 Capybara.app_host = ARGV[0]
 
 module DalphiProfiler
-  def wait_for_ajax
-    include Capybara::DSL
-
-  end
-
   class Authentification
     include Capybara::DSL
 
     def initialize(email: nil, password: nil)
+      page.driver.browser.js_errors = false
+
       email ||= Faker::Internet.safe_email
       password ||= Faker::Internet.password
 
@@ -48,6 +45,8 @@ module DalphiProfiler
     include Capybara::DSL
 
     def initialize(email: nil, password: nil)
+      page.driver.browser.js_errors = false
+
       email ||= Faker::Internet.safe_email
       password ||= Faker::Internet.password
 
@@ -78,6 +77,8 @@ module DalphiProfiler
     include Capybara::DSL
 
     def initialize(title: nil, description: nil, iterate_service: nil, merge_service: nil, interfaces: nil)
+      page.driver.browser.js_errors = false
+
       title ||= "#{Faker::Hacker.adjective} #{Faker::Hacker.noun} #{Faker::Hacker.ingverb}"
       description ||= Faker::Hacker.say_something_smart
       iterate_service ||= 'MaxEnt NER Iterator (synchronous)'
@@ -125,6 +126,8 @@ module DalphiProfiler
     include Capybara::DSL
 
     def initialize(name: nil, email: nil, password: nil)
+      page.driver.browser.js_errors = false
+
       name ||= Faker::Name.name
       email ||= Faker::Internet.safe_email
       password ||= Faker::Internet.password
@@ -180,6 +183,8 @@ module DalphiProfiler
     include Capybara::DSL
 
     def initialize(project_title: nil, files: nil)
+      page.driver.browser.js_errors = false
+
       unless files
         file = Tempfile.new(['', '.json'])
         file.write(
@@ -228,6 +233,8 @@ module DalphiProfiler
     include Capybara::DSL
 
     def initialize(project_title: nil)
+      page.driver.browser.js_errors = false
+
       @project_title = project_title
     end
 
@@ -252,6 +259,8 @@ module DalphiProfiler
     include Capybara::DSL
 
     def initialize(project_title: nil)
+      page.driver.browser.js_errors = false
+
       @project_title = project_title
     end
 
