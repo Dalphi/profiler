@@ -40,8 +40,8 @@ authentification.login_admin
 # end
 annotation.merge
 
-# annotator.assign_to_project('bluetooth port indexing')
-# annotator.unassign_from_project('bluetooth port indexing')
+# annotator.assign_to_project(project_title: project_title)
+# annotator.unassign_from_project(project_title: project_title)
 
 # authentification.logout_admin
 # registration.unregister_admin

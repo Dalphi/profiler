@@ -8,6 +8,7 @@ require 'faker'
 
 Capybara.run_server = false
 Capybara.current_driver = :poltergeist
+Capybara.default_max_wait_time = 10
 Capybara.app_host = ARGV[0]
 
 module DalphiProfiler
@@ -150,7 +151,7 @@ module DalphiProfiler
       click_on 'Delete'
     end
 
-    def assign_to_project(project_title)
+    def assign_to_project(project_title: nil)
       visit '/projects'
 
       click_on project_title
@@ -162,10 +163,10 @@ module DalphiProfiler
       click_on 'Add annotator'
     end
 
-    def unassign_from_project(project_title)
+    def unassign_from_project(project_title: nil)
       visit '/projects'
+      puts project_title
 
-      click_on project_title
       within :css, '.nav-tabs' do
         click_on 'Annotators'
       end
@@ -270,7 +271,7 @@ module DalphiProfiler
         end
       end if label_words
 
-      save_screenshot("/tmp/annotation-document-#{Time.now.strftime('%Y-%m-%d %H:%M:%S.%N')}.png")
+      # save_screenshot("/tmp/annotation-document-#{Time.now.strftime('%Y-%m-%d %H:%M:%S.%N')}.png")
 
       click_on 'Save annotation'
     end

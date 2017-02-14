@@ -64,8 +64,8 @@ annotator = DalphiProfiler::Annotator.new name: 'Kailey Ledner',
 annotator.create # creates an annotator with the specified name and credentials
 annotator.destroy # destroys an annotator identified by the name
 
-annotator.assign_to_project('bluetooth port indexing') # assignes the annotator identified by the name and email to the project identified by its title
-annotator.unassign_from_project('bluetooth port indexing') # unassignes the annotator identified by its name from the project identified by its title
+annotator.assign_to_project project_title: 'bluetooth port indexing' # assignes the annotator identified by the name and email to the project identified by its title
+annotator.unassign_from_project project_title: 'bluetooth port indexing' # unassignes the annotator identified by its name from the project identified by its title
 ```
 
 ### RawDatum
@@ -85,7 +85,7 @@ raw_datum.destroy_all # destroys all raw data associated to the project with the
 The `annotation_document` object can `create` a datum and `destroy_all` of them.
 
 ```ruby
-annotation_document = DalphiProfiler::AnnotationDocument.new(project_title: 'bluetooth port indexing')
+annotation_document = DalphiProfiler::AnnotationDocument.new project_title: 'bluetooth port indexing'
 
 annotation_document.create # creates an annotation document for the project with the specified project title
 annotation_document.destroy_all # destroys all annotation documents associated to the project with the given title
@@ -96,8 +96,8 @@ annotation_document.destroy_all # destroys all annotation documents associated t
 The `annotation` object can `annotate` an annotation document or `merge` all annotated annotation documents.
 
 ```ruby
-annotation = DalphiProfiler::Annotation.new(project_title: 'bluetooth port indexing')
+annotation = DalphiProfiler::Annotation.new project_title: 'bluetooth port indexing'
 
-annotation.annotate(label_words: { 'PER': ['Linus Torvalds', 'Richard Stallman'], 'COM': ['Linux Foundation', 'Canonical'] }) # annotates one annotation document with the given words for the coresponding labels
+annotation.annotate label_words: { 'PER': ['Linus Torvalds', 'Richard Stallman'], 'COM': ['Linux Foundation', 'Canonical'] } # annotates one annotation document with the given words for the coresponding labels
 annotation.merge # merges all annotated annotation documents back to the corresponding raw datum
 ```
