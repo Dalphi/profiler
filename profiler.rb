@@ -42,14 +42,39 @@ module DalphiProfiler
       raise
     end
 
-    def logout_admin
-      visit '/'
+    def login_annotator
+      visit '/auth/annotators/sign_in'
 
-      find(:css, '.sign-out').trigger('click')
+      fill_in 'annotator_email', with: @email
+      fill_in 'annotator_password', with: @password
+
+      click_button 'Sign in'
+    rescue
+      puts "error in Authentification#login_annotator"
+      save_screenshot("#{Dir.pwd}/error-#{Time.now.strftime('%Y-%m-%d %H:%M:%S.%N')}.png")
+      raise
+    end
+
+    def logout_admin
+      logout
     rescue
       puts "error in Authentification#logout_admin"
       save_screenshot("#{Dir.pwd}/error-#{Time.now.strftime('%Y-%m-%d %H:%M:%S.%N')}.png")
       raise
+    end
+
+    def logout_annotator
+      logout
+    rescue
+      puts "error in Authentification#logout_annotator"
+      save_screenshot("#{Dir.pwd}/error-#{Time.now.strftime('%Y-%m-%d %H:%M:%S.%N')}.png")
+      raise
+    end
+
+    def logout
+      visit '/'
+
+      find(:css, '.sign-out').trigger('click')
     end
   end
 
