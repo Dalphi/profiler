@@ -73,8 +73,8 @@ annotator.unassign_from_project project_title: 'bluetooth port indexing' # unass
 The `raw_datum` object can `create` a datum and `destroy_all` of them.
 
 ```ruby
-raw_datum = DalphiProfiler::Annotator.new project_title: 'bluetooth port indexing',
-                                          file: '/path/to/your/raw_datum.json'
+raw_datum = DalphiProfiler::RawDatum.new project_title: 'bluetooth port indexing',
+                                         files: ['/path/to/your/raw_datum_1.json', '/path/to/your/raw_datum_2.json']
 
 raw_datum.create # creates a raw datum with the given file for the project with the specified project title
 raw_datum.destroy_all # destroys all raw data associated to the project with the given title

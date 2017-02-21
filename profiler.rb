@@ -300,7 +300,7 @@ module DalphiProfiler
 
       page.evaluate_script '$("#raw_datum_data").removeAttr("accept")'
 
-      attach_file 'raw_datum_data', @files.map(&:path)
+      attach_file 'raw_datum_data', @files
 
       find(:css, '.btn-primary').trigger('click')
     rescue
