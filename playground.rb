@@ -14,13 +14,16 @@ label_words = { 'PER': [
                 ]
               }
 
-# registration.register_admin
-authentification.login_admin
-
-# annotator.create
-# annotator.destroy
+registration.register_admin
+# authentification.login_admin
 
 # project.create
+
+# annotator.create
+# annotator.assign_to_project(project_title: project_title)
+# annotator.unassign_from_project(project_title: project_title)
+# annotator.destroy
+
 # project.destroy
 
 # files = []
@@ -38,10 +41,10 @@ authentification.login_admin
 # 20.times do
 #   annotation.annotate(label_words: label_words)
 # end
-annotation.merge
+# annotation.merge
 
 # annotator.assign_to_project(project_title: project_title)
 # annotator.unassign_from_project(project_title: project_title)
 
 # authentification.logout_admin
-# registration.unregister_admin
+registration.unregister_admin

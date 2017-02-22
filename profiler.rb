@@ -173,6 +173,10 @@ module DalphiProfiler
     def destroy
       visit '/projects'
 
+      while !page.has_content?(@title) && page.has_css?('a.next_page')
+        find(:css, 'a.next_page').trigger('click')
+      end
+
       click_on @title
       click_on 'Edit project'
       find(:css, '.btn-danger').trigger('click')
@@ -219,6 +223,10 @@ module DalphiProfiler
     def destroy
       visit '/annotators'
 
+      while !page.has_content?(@name) && page.has_css?('a.next_page')
+        find(:css, 'a.next_page').trigger('click')
+      end
+
       click_on @name
       click_on 'Delete'
     rescue
@@ -230,7 +238,12 @@ module DalphiProfiler
     def assign_to_project(project_title: nil)
       visit '/projects'
 
+      while !page.has_content?(project_title) && page.has_css?('a.next_page')
+        find(:css, 'a.next_page').trigger('click')
+      end
+
       click_on project_title
+
       within :css, '.nav-tabs' do
         click_on 'Annotators'
       end
@@ -245,10 +258,19 @@ module DalphiProfiler
 
     def unassign_from_project(project_title: nil)
       visit '/projects'
-      puts project_title
+
+      while !page.has_content?(project_title) && page.has_css?('a.next_page')
+        find(:css, 'a.next_page').trigger('click')
+      end
+
+      click_on project_title
 
       within :css, '.nav-tabs' do
         click_on 'Annotators'
+      end
+
+      while !page.has_content?(@name) && page.has_css?('a.next_page')
+        find(:css, 'a.next_page').trigger('click')
       end
 
       click_on @name
@@ -294,6 +316,10 @@ module DalphiProfiler
     def create
       visit '/projects'
 
+      while !page.has_content?(@project_title) && page.has_css?('a.next_page')
+        find(:css, 'a.next_page').trigger('click')
+      end
+
       click_on @project_title
       click_on 'Raw Data'
       click_on 'New raw datum'
@@ -311,6 +337,10 @@ module DalphiProfiler
 
     def destroy_all
       visit '/projects'
+
+      while !page.has_content?(@project_title) && page.has_css?('a.next_page')
+        find(:css, 'a.next_page').trigger('click')
+      end
 
       click_on @project_title
       click_on 'Raw Data'
@@ -338,6 +368,10 @@ module DalphiProfiler
     def create
       visit '/projects'
 
+      while !page.has_content?(@project_title) && page.has_css?('a.next_page')
+        find(:css, 'a.next_page').trigger('click')
+      end
+
       click_on @project_title
       click_on 'Annotation Documents'
       click_on 'Generate annotation documents'
@@ -349,6 +383,10 @@ module DalphiProfiler
 
     def destroy_all
       visit '/projects'
+
+      while !page.has_content?(@project_title) && page.has_css?('a.next_page')
+        find(:css, 'a.next_page').trigger('click')
+      end
 
       click_on @project_title
       click_on 'Annotation Documents'
@@ -376,6 +414,10 @@ module DalphiProfiler
     def annotate(label_words: nil)
       visit '/projects'
 
+      while !page.has_content?(@project_title) && page.has_css?('a.next_page')
+        find(:css, 'a.next_page').trigger('click')
+      end
+
       click_on @project_title
       click_on 'Annotation Documents'
       visit "#{page.find("[href*='annotate']")[:href]}&synchronous_request=true"
@@ -398,6 +440,10 @@ module DalphiProfiler
 
     def merge
       visit '/projects'
+
+      while !page.has_content?(@project_title) && page.has_css?('a.next_page')
+        find(:css, 'a.next_page').trigger('click')
+      end
 
       click_on @project_title
       click_on 'Annotation Documents'
