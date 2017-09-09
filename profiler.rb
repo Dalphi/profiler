@@ -122,6 +122,30 @@ module DalphiProfiler
     end
   end
 
+  class Service
+    include Capybara::DSL
+
+    def initialize(url: nil)
+      @url = url
+    rescue
+      puts "error in Service#initialize"
+      save_screenshot("#{Dir.pwd}/error-#{Time.now.strftime('%Y-%m-%d %H:%M:%S.%N')}.png")
+      raise
+    end
+
+    def register
+      /(?<protocol>http|https):\/\/(?<uri>.*)/ =~ @url
+      visit "/services/new?protocol=#{protocol}&uri=#{URI.escape(uri)}"
+      find(:css, '.btn-primary').trigger('click')
+    end
+
+    def unregister
+      visit '/services'
+      click_on @url
+      find(:css, '.btn-danger').trigger('click')
+    end
+  end
+
   class Project
     include Capybara::DSL
 

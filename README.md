@@ -36,6 +36,17 @@ authentification.login_admin # logs in an administrator with the specified crede
 authentification.logout_admin # logs out any logged in administrator
 ```
 
+### Service
+
+The `service` object is capable of `register` and `unregister` itself.
+
+```ruby
+service = DalphiProfiler::Service url: 'http://service.example.com:1234/api/v1'
+
+service.register # registers the service identified by its URL
+service.unregister # unregisters the service identified by its URL
+```
+
 ### Project
 
 The `project` object can `create` and `destroy` a project.
