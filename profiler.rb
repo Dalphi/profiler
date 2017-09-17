@@ -5,10 +5,11 @@ require 'capybara'
 require 'capybara/dsl'
 require 'capybara/poltergeist'
 require 'faker'
+require 'httparty'
 
 Capybara.run_server = false
 Capybara.current_driver = :poltergeist
-Capybara.default_max_wait_time = 10
+Capybara.default_max_wait_time = 20
 Capybara.app_host = ARGV[0]
 
 module DalphiProfiler
@@ -38,7 +39,7 @@ module DalphiProfiler
       click_button 'Sign in'
     rescue
       puts "error in Authentification#login_admin"
-      save_screenshot("#{Dir.pwd}/error-#{Time.now.strftime('%Y-%m-%d %H:%M:%S.%N')}.png")
+      save_screenshot("#{Dir.pwd}/public/system/error-#{Time.now.strftime('%Y-%m-%d %H:%M:%S.%N')}.png")
       raise
     end
 
@@ -125,8 +126,9 @@ module DalphiProfiler
   class Service
     include Capybara::DSL
 
-    def initialize(url: nil)
+    def initialize(url: nil, title: nil)
       @url = url
+      @title = title
     rescue
       puts "error in Service#initialize"
       save_screenshot("#{Dir.pwd}/error-#{Time.now.strftime('%Y-%m-%d %H:%M:%S.%N')}.png")
@@ -136,6 +138,7 @@ module DalphiProfiler
     def register
       /(?<protocol>http|https):\/\/(?<uri>.*)/ =~ @url
       visit "/services/new?protocol=#{protocol}&uri=#{URI.escape(uri)}"
+      fill_in 'service[title]', with: @title if @title
       find(:css, '.btn-primary').trigger('click')
     end
 
@@ -143,6 +146,42 @@ module DalphiProfiler
       visit '/services'
       click_on @url
       find(:css, '.btn-danger').trigger('click')
+    end
+  end
+
+  class Interface
+    include Capybara::DSL
+
+    def initialize(title: nil, interface_type_name: nil, associated_problem_identifiers: nil, html: nil, coffee: nil, scss: nil, dalphi_storage: nil, profiler_storage: nil)
+      @dalphi_storage ||= '/usr/src/app/public/system'
+      @profiler_storage ||= '/usr/src/app/public/system'
+      @title = title
+      @interface_type_name = interface_type_name
+      @associated_problem_identifiers = associated_problem_identifiers
+      @html = html
+      @coffee = coffee
+      @scss = scss
+    end
+
+    def create
+      visit '/interfaces/new'
+
+      fill_in 'interface[title]', with: @title
+      fill_in 'interface[interface_type][name]', with: @interface_type_name
+      page.execute_script("$('#interface_associated_problem_identifiers').attr('value', 'ner')")
+
+      find(:css, '.btn-primary').trigger('click')
+
+      path = find(:css, '.pro-tip .input-group:nth-of-type(1) input').value.gsub(@dalphi_storage, @profiler_storage)
+      File.write path, @html
+
+      path = find(:css, '.pro-tip .input-group:nth-of-type(2) input').value.gsub(@dalphi_storage, @profiler_storage)
+      File.write path, @coffee
+
+      path = find(:css, '.pro-tip .input-group:nth-of-type(3) input').value.gsub(@dalphi_storage, @profiler_storage)
+      File.write path, @scss
+
+      click_on 'Refresh'
     end
   end
 

@@ -10,12 +10,9 @@ RUN \
 	mv phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/bin/ && \
 	rm -r phantomjs-2.1.1-linux-x86_64
 
-COPY Gemfile* /tmp/
-RUN \
-	cd /tmp && \
-	bundle install && \
-	rm /tmp/Gemfile*
-COPY . /usr/src/app
 WORKDIR /usr/src/app
+COPY Gemfile* /usr/src/app/
+RUN bundle install
+COPY . /usr/src/app
 
 CMD ["./profiler.rb http://localhost ./profile.rb"]

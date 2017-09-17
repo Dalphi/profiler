@@ -47,6 +47,20 @@ service.register # registers the service identified by its URL
 service.unregister # unregisters the service identified by its URL
 ```
 
+### Interface
+
+The `interface` object can `create` an instance of itself.
+
+```ruby
+interface = DalphiProfiler::Interface.new title: 'NER complete',
+                                          interface_type_name: 'ner_complete',
+                                          associated_problem_identifiers: 'ner',
+                                          html: File.read("#{Dir.pwd}/interface.html"),
+                                          coffee: File.read("#{Dir.pwd}/interface.coffee"),
+                                          scss: File.read("#{Dir.pwd}/interface.scss")
+interface.create # creates an interface specified by its properties
+```
+
 ### Project
 
 The `project` object can `create` and `destroy` a project.
